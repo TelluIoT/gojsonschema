@@ -33,12 +33,16 @@ type schemaReferencePool struct {
 	documents map[string]*subSchema
 }
 
+var schemaReferencePoolSingleton *schemaReferencePool
+
 func newSchemaReferencePool() *schemaReferencePool {
 
-	p := &schemaReferencePool{}
-	p.documents = make(map[string]*subSchema)
+	if schemaReferencePoolSingleton == nil {
+		schemaReferencePoolSingleton = &schemaReferencePool{}
+		schemaReferencePoolSingleton.documents = make(map[string]*subSchema)
+	}
 
-	return p
+	return schemaReferencePoolSingleton
 }
 
 func (p *schemaReferencePool) Get(ref string) (r *subSchema, o bool) {
